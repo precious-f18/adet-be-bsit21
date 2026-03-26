@@ -51,3 +51,29 @@ export const deletePost = async (c: Context) => {
     } catch (error: any) { return c.json({ success: false, message: error.message }, 500); }
 };
 export const deletePostById = deletePost;
+
+export const patchPostById = async (c: Context) => {
+    const id = c.req.param('id');
+    try {
+        const body = await c.req.json().catch(() => ({}));
+        const { title, description, status } = body;
+
+        const sql = `
+            UPDATE posts 
+            SET title = COALESCE(?, title), 
+                description = COALESCE(?, description), 
+                status = COALESCE(?, status) 
+            WHERE post_id = ?
+        `;
+
+        const [result]: any = await pool.query(sql, [title || null, description || null, status || null, id]);
+
+        if (result.affectedRows === 0) {
+            return c.json({ success: false, message: "Post not found" }, 404);
+        }
+
+        return c.json({ success: true, message: "Post updated successfully" });
+    } catch (error: any) {
+        return c.json({ success: false, message: error.message }, 500);
+    }
+};
