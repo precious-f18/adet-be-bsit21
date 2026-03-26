@@ -1,7 +1,6 @@
 import { Context } from 'hono';
 import pool from '../config/db';
 
-
 export const getAllPosts = async (c: Context) => {
     try {
         const [rows] = await pool.query('SELECT * FROM posts');
@@ -33,7 +32,7 @@ export const createPost = async (c: Context) => {
     }
 };
 
-export const updatePost = async (c: Context) => {
+export const updatePostById = async (c: Context) => {
     const id = c.req.param('id');
     try {
         const body = await c.req.json();
@@ -45,11 +44,11 @@ export const updatePost = async (c: Context) => {
     }
 };
 
-export const deletePost = async (c: Context) => {
+export const deletePostById = async (c: Context) => {
     const id = c.req.param('id');
     try {
         await pool.query('DELETE FROM posts WHERE post_id = ?', [id]);
-        return c.json({ success: true, message: "Post deleted" });
+        return c.json({ success: true, message: "Post deleted successfully" });
     } catch (error: any) {
         return c.json({ success: false, message: error.message }, 500);
     }
