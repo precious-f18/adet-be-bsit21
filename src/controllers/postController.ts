@@ -63,3 +63,28 @@ export async function deletePostById(c: Context) {
     return c.json({ message: "Internal server error" }, 500);
   }
 }
+
+export async function updatePostStatus(c: Context) {
+  try {
+    const id = c.req.param('id');
+    const body = await c.req.json();
+
+    if (!body.status) {
+      return c.json({ message: "Status is required" }, 400);
+    }
+
+    const [result] = await db.query<any>(
+      "UPDATE posts SET status = ? WHERE post_id = ?",
+      [body.status, id]
+    );
+
+    if ((result as any).affectedRows === 0) {
+      return c.json({ message: "Post not found" }, 404);
+    }
+
+    return c.json({ message: "Post status updated successfully" }, 200);
+  } catch (error: any) {
+    console.error("Update Error:", error.message);
+    return c.json({ message: "Error updating post", error: error.message }, 500);
+  }
+}

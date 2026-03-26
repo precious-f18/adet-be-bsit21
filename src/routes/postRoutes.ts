@@ -1,10 +1,18 @@
-import { Hono } from 'hono';
-import { getAllPosts, createPost } from '../controllers/postController.js';
+import { Hono } from "hono";
+import { 
+    createPost, 
+    deletePostById, 
+    getAllPosts, 
+    getPostById, 
+    updatePostStatus 
+} from "../controllers/postController";
 
-const postRoutes = new Hono();
+const postsRoute = new Hono();
 
-postRoutes.get('/', getAllPosts);
+postsRoute.get('/', getAllPosts);
+postsRoute.get('/:id', getPostById);
+postsRoute.post('/', createPost);
+postsRoute.delete('/:id', deletePostById);
+postsRoute.patch('/:id', updatePostStatus);
 
-postRoutes.post('/', createPost);
-
-export default postRoutes;
+export default postsRoute;
