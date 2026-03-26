@@ -1,18 +1,18 @@
-import { Hono } from "hono";
+import { Hono } from 'hono';
 import { 
-    createPost, 
-    deletePostById, 
     getAllPosts, 
     getPostById, 
-    updatePostStatus 
-} from "../controllers/postController";
+    createPost, 
+    updatePostById, 
+    deletePostById 
+} from '../controllers/postController';
 
-const postsRoute = new Hono();
+const router = new Hono();
 
-postsRoute.get('/', getAllPosts);
-postsRoute.get('/:id', getPostById);
-postsRoute.post('/', createPost);
-postsRoute.delete('/:id', deletePostById);
-postsRoute.patch('/:id', updatePostStatus);
+router.get('/', getAllPosts);
+router.get('/:id', getPostById);
+router.post('/', createPost);
+router.put('/:id', updatePostById);
+router.delete('/:id', deletePostById);
 
-export default postsRoute;
+export default router;

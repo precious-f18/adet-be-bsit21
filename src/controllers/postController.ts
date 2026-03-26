@@ -32,24 +32,22 @@ export const createPost = async (c: Context) => {
     }
 };
 
-export const updatePostById = async (c: Context) => {
+export const updatePost = async (c: Context) => {
     const id = c.req.param('id');
     try {
         const body = await c.req.json();
         const { title, description } = body;
         await pool.query('UPDATE posts SET title = ?, description = ? WHERE post_id = ?', [title, description, id]);
-        return c.json({ success: true, message: "Post updated" });
-    } catch (error: any) {
-        return c.json({ success: false, message: error.message }, 500);
-    }
+        return c.json({ success: true, message: "Updated" });
+    } catch (error: any) { return c.json({ success: false, message: error.message }, 500); }
 };
+export const updatePostById = updatePost;
 
-export const deletePostById = async (c: Context) => {
+export const deletePost = async (c: Context) => {
     const id = c.req.param('id');
     try {
         await pool.query('DELETE FROM posts WHERE post_id = ?', [id]);
-        return c.json({ success: true, message: "Post deleted successfully" });
-    } catch (error: any) {
-        return c.json({ success: false, message: error.message }, 500);
-    }
+        return c.json({ success: true, message: "Deleted" });
+    } catch (error: any) { return c.json({ success: false, message: error.message }, 500); }
 };
+export const deletePostById = deletePost;
