@@ -7,3 +7,9 @@ export interface Post extends RowDataPacket {
   status: 'Active' | 'Inactive';
   created_at: Date;
 }
+
+export interface CreatePostModel {
+  title: string;
+  description: string;
+  status: 'Active' | 'Inactive';
+}
