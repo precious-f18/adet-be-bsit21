@@ -1,3 +1,4 @@
+console.log("--- DEBUG: STARTING SERVER ---");
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
 import postsRoute from './routes/postRoutes';
